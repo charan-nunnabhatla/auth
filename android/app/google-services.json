@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "60482762914",
+    "project_id": "email-login-cd375",
+    "storage_bucket": "email-login-cd375.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:60482762914:android:80c7dc2676468129bf7ffb",
+        "android_client_info": {
+          "package_name": "com.example.authlogin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "60482762914-ds5qg1ldt7inr4mmqgdvcbrijmgblg61.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAEXOEe99EogqekxLYnfAEWFSXqZnXX8ug"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "60482762914-ds5qg1ldt7inr4mmqgdvcbrijmgblg61.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "60482762914-31obgu4vuqdfkein1vqgtcnr3knoc9tq.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.authlogin.RunnerTests"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
