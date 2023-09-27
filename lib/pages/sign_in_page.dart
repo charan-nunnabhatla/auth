@@ -1,8 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:authlogin/utils/utils.dart';
 import 'package:authlogin/pages/sign_up_page.dart';
 import 'package:logger/logger.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 class SignInHomePage extends StatefulWidget {
   const SignInHomePage({super.key});
@@ -15,9 +16,8 @@ class _SignInHomePageState extends State<SignInHomePage> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   var logger = Logger();
-  final supabase = Supabase.instance.client;
 
-  void signin() async {
+  void signinButton() async {
     showDialog(
         context: context,
         builder: (context) {
@@ -25,43 +25,24 @@ class _SignInHomePageState extends State<SignInHomePage> {
             child: CircularProgressIndicator(),
           );
         });
-    try {
-      await supabase.auth.signInWithPassword(
-          password: passwordController.text, email: emailController.text);
-
-      Navigator.pop(context);
-    } catch (e) {
-      logger.e(e);
-      Navigator.pop(context);
-    }
-    logger.i('after try block');
+    await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: emailController.text.trim(),
+        password: passwordController.text.trim());
     Navigator.pop(context);
   }
 
-  void errorPasswordMessage(String errorText) {
-    showDialog(
-        context: context,
-        builder: (context) {
-          return Center(
-            child: AlertDialog(title: Text(errorText)),
-          );
-        });
-  }
-
-  void errorEmailMessage(String errorText) {
-    showDialog(
-        context: context,
-        builder: (context) {
-          return Center(
-            child: AlertDialog(title: Text(errorText)),
-          );
-        });
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: const Text('Sign-in'),
       ),
       body: ListView(children: [
@@ -72,7 +53,7 @@ class _SignInHomePageState extends State<SignInHomePage> {
             style: TextStyle(
                 fontSize: 80,
                 fontFamily: 'arial',
-                color: Color.fromARGB(162, 255, 255, 255)),
+                color: Color.fromARGB(161, 211, 240, 234)),
           ),
         ),
         textFeild(emailController, 'Email', false),
@@ -81,7 +62,7 @@ class _SignInHomePageState extends State<SignInHomePage> {
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: ElevatedButton(
-              onPressed: signin,
+              onPressed: signinButton,
               child: const Text('Sign-in'),
             ),
           ),
@@ -96,8 +77,10 @@ class _SignInHomePageState extends State<SignInHomePage> {
                 style: TextStyle(color: Colors.blue),
               ),
               onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => SignUpPage()));
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => const SignUpPage()),
+                );
               },
             ),
             const Text('-'),
