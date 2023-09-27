@@ -1,10 +1,11 @@
+import 'package:authlogin/pages/sign_in_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:authlogin/utils/utils.dart';
 import 'package:logger/logger.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 class SignUpPage extends StatefulWidget {
-  SignUpPage({super.key});
+  const SignUpPage({super.key});
 
   @override
   State<SignUpPage> createState() => _SignUpPageState();
@@ -12,15 +13,53 @@ class SignUpPage extends StatefulWidget {
 
 class _SignUpPageState extends State<SignUpPage> {
   final newEmailController = TextEditingController();
-
   final newPasswordController = TextEditingController();
-
   var logger = Logger();
+
+  Future signUp() async {
+    try {
+      showDialog(
+          context: context,
+          builder: (context) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          });
+
+      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+          email: newEmailController.text.trim(),
+          password: newPasswordController.text.trim());
+      await FirebaseAuth.instance.signOut();
+
+      Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const SignInHomePage(),
+          ));
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text("Account created"),
+        ),
+      );
+    } on FirebaseAuthException catch (e) {
+      logger.e(e.code);
+      logger.e(e.message);
+    }
+  }
+
+  @override
+  void dispose() {
+    newEmailController.dispose();
+    newPasswordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          automaticallyImplyLeading: false,
           title: const Text('Sign-up'),
         ),
         body: Column(children: [
@@ -38,25 +77,10 @@ class _SignUpPageState extends State<SignUpPage> {
           textFeild(newPasswordController, 'Enter Password', true),
           Center(
             child: ElevatedButton(
+              onPressed: signUp,
               child: const Text('Create'),
-              onPressed: () {
-                // createUserWithEmail(
-                //     newEmailController.text, newPasswordController.text);
-                createUserWithEmail(
-                    newEmailController.text, newPasswordController.text);
-              },
             ),
           )
         ]));
-  }
-
-  void createUserWithEmail(String email, String password) async {
-    try {
-      logger.i('in create user page');
-      Supabase.instance.client.auth
-          .signInWithPassword(password: password, email: email);
-    } catch (e) {
-      logger.e(e);
-    }
   }
 }
