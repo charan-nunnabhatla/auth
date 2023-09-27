@@ -1,27 +1,20 @@
-import 'dart:math';
-
 import 'package:authlogin/pages/home_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:authlogin/pages/sign_in_page.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
+
+// ...
 
 bool isSignedIn = false;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  await Supabase.initialize(
-    url: 'https://ambwimfzohlxgfdaytvv.supabase.co',
-    anonKey:
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFtYndpbWZ6b2hseGdmZGF5dHZ2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTIyNDE5ODgsImV4cCI6MjAwNzgxNzk4OH0.vrpS8Mag2zH_RpD6RlC1ZnrShg-EVwxAYOl6u2Jij7o',
+  await Firebase.initializeApp(
+    name: "Lockify",
+    options: DefaultFirebaseOptions.currentPlatform,
   );
-
-  Supabase.instance.client.auth.onAuthStateChange.listen((event) {
-    if (event == AuthChangeEvent.signedIn) {
-      isSignedIn = true;
-    } else {
-      isSignedIn = false;
-    }
-  });
 
   runApp(const AuthPage());
 }
@@ -32,7 +25,16 @@ class AuthPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: isSignedIn ? const HomePage() : const SignInHomePage(),
+      home: StreamBuilder(
+        stream: FirebaseAuth.instance.authStateChanges(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return const HomePage();
+          } else {
+            return const SignInHomePage();
+          }
+        },
+      ),
       themeMode: ThemeMode.dark,
       darkTheme: ThemeData.dark(useMaterial3: true),
       debugShowCheckedModeBanner: false,
