@@ -38,7 +38,7 @@ class _SignUpPageState extends State<SignUpPage> {
           ));
 
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
+        const SnackBar(
           content: Text("Account created"),
         ),
       );
@@ -58,11 +58,15 @@ class _SignUpPageState extends State<SignUpPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          automaticallyImplyLeading: false,
-          title: const Text('Sign-up'),
-        ),
-        body: Column(children: [
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        title: const Text('Sign-up'),
+      ),
+      body: Column(
+        children: [
+          const SizedBox(
+            height: 90,
+          ),
           const Padding(
             padding: EdgeInsets.all(8.0),
             child: Text(
@@ -77,10 +81,12 @@ class _SignUpPageState extends State<SignUpPage> {
           textFeild(newPasswordController, 'Enter Password', true),
           Center(
             child: ElevatedButton(
-              onPressed: signUp,
+              onPressed: () => signUp,
               child: const Text('Create'),
             ),
           )
-        ]));
+        ],
+      ),
+    );
   }
 }
