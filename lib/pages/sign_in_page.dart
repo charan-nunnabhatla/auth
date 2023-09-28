@@ -1,5 +1,5 @@
+import 'package:authlogin/pages/forgot_password_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:authlogin/utils/utils.dart';
 import 'package:authlogin/pages/sign_up_page.dart';
@@ -46,6 +46,9 @@ class _SignInHomePageState extends State<SignInHomePage> {
         title: const Text('Sign-in'),
       ),
       body: ListView(children: [
+        const SizedBox(
+          height: 70,
+        ),
         const Padding(
           padding: EdgeInsets.all(8.0),
           child: Text(
@@ -62,12 +65,11 @@ class _SignInHomePageState extends State<SignInHomePage> {
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: ElevatedButton(
-              onPressed: signinButton,
+              onPressed: () => signinButton,
               child: const Text('Sign-in'),
             ),
           ),
         ),
-        const Spacer(),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -89,7 +91,10 @@ class _SignInHomePageState extends State<SignInHomePage> {
                 'Forgot Password?',
                 style: TextStyle(color: Colors.blue),
               ),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => ForgotPassword()));
+              },
             ),
           ],
         ),
