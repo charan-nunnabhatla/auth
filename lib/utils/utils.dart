@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 Widget textFeild(TextEditingController textEditingController, String lable,
     bool obsobscureText) {
   return Padding(
-      padding: EdgeInsets.all(15),
+      padding: const EdgeInsets.all(15),
       child: TextField(
         obscureText: obsobscureText,
         // textCapitalization: TextCapitalization.characters,
@@ -44,21 +44,3 @@ Widget textFeild(TextEditingController textEditingController, String lable,
         ),
       ));
 }
-
-class UserDetails {
-  String name;
-  String email;
-  String uid;
-
-  UserDetails({required this.name, required this.uid, required this.email});
-
-  Map<String, dynamic> toMap() {
-    return {"name": name, "uid": uid, "email": email};
-  }
-
-  @override
-  String toString() {
-    return 'UserDetails{"name":$name, "uid": $uid, "email": $email}';
-  }
-}
-
