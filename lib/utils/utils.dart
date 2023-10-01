@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 
-Widget textFeild(TextEditingController textEditingController, String lable,
-    bool obsobscureText) {
+Widget textFeild(
+    TextEditingController textEditingController, String lable, bool obscureText,
+    {var maxlines=1}) {
   return Padding(
       padding: const EdgeInsets.all(15),
       child: TextField(
-        obscureText: obsobscureText,
+        maxLines: maxlines,
+        obscureText: obscureText,
         // textCapitalization: TextCapitalization.characters,
         onChanged: (value) {
           // textEditingController.value = TextEditingValue(
