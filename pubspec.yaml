@@ -38,7 +38,9 @@ dependencies:
   firebase_core:
   firebase_auth:
   logger:
-  popover:
+  cloud_firestore: ^4.9.2
+  # firebase_storage: ^11.2.7
+  # popover:
 
 dev_dependencies:
   flutter_test:
