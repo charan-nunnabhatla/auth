@@ -17,7 +17,7 @@ class _SignInHomePageState extends State<SignInHomePage> {
   final TextEditingController passwordController = TextEditingController();
   var logger = Logger();
 
-  void signinButton() async {
+  void signinButton(BuildContext context) async {
     showDialog(
         context: context,
         builder: (context) {
@@ -25,10 +25,21 @@ class _SignInHomePageState extends State<SignInHomePage> {
             child: CircularProgressIndicator(),
           );
         });
-    await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: emailController.text.trim(),
-        password: passwordController.text.trim());
-    Navigator.pop(context);
+    try {
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: emailController.text.trim(),
+          password: passwordController.text.trim());
+      Navigator.pop(context);
+    } on FirebaseAuthException catch (e) {
+      Navigator.pop(context);
+      showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              content: Text(e.message.toString()),
+            );
+          });
+    }
   }
 
   @override
@@ -65,7 +76,9 @@ class _SignInHomePageState extends State<SignInHomePage> {
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: ElevatedButton(
-              onPressed: () => signinButton,
+              onPressed: () {
+                return signinButton(context);
+              },
               child: const Text('Sign-in'),
             ),
           ),
@@ -93,7 +106,7 @@ class _SignInHomePageState extends State<SignInHomePage> {
               ),
               onPressed: () {
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => ForgotPassword()));
+                    MaterialPageRoute(builder: (context) => const ForgotPassword()));
               },
             ),
           ],
