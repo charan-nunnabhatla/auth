@@ -49,21 +49,4 @@ class DefaultFirebaseOptions {
     }
   }
 
-  static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyAQhmFIytDTu8yqvuVZJ9_5j9bffbSBl6g',
-    appId: '1:75390383338:web:71f7f1f5ce3fa718a8d393',
-    messagingSenderId: '75390383338',
-    projectId: 'lockify-8b531',
-    authDomain: 'lockify-8b531.firebaseapp.com',
-    storageBucket: 'lockify-8b531.appspot.com',
-    measurementId: 'G-P5RLYV8HKY',
-  );
-
-  static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyBxY67KeAHnJMGSGjqO9ZWMnsxrgbBfPjc',
-    appId: '1:75390383338:android:546ee3fd449455bba8d393',
-    messagingSenderId: '75390383338',
-    projectId: 'lockify-8b531',
-    storageBucket: 'lockify-8b531.appspot.com',
-  );
-}
+  
